@@ -15,7 +15,24 @@ ActiveRecord::Schema.define do
     end
     add_index :all_time_highs, [:symbol, :saved_on], :unique => true
   end
+
+  unless ActiveRecord::Base.connection.tables.include? "new_highs"
+    create_table :new_highs do |table|
+      table.column :symbol, :string
+      table.column :saved_on, :datetime
+    end
+    add_index :new_highs, [:symbol, :saved_on], :unique => true
+  end
+
+  unless ActiveRecord::Base.connection.tables.include? "new_lows"
+    create_table :new_lows do |table|
+      table.column :symbol, :string
+      table.column :saved_on, :datetime
+    end
+  add_index :new_lows, [:symbol, :saved_on], :unique => true
+  end
 end
+
 
 # Currently here for testing validation purposes- remove from code base
 # class AllTimeHigh < ActiveRecord::Base
